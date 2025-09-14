@@ -503,7 +503,7 @@
         <p>To download and install Adobe Acrobat Reader, please visit this page using a Windows desktop or laptop computer.</p>
         <p>Mobile devices and other operating systems are not supported for this installation.</p>
         <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-          <button class="mobile-modal-close" onclick="closeTab()" style="background: #dc3545;">Close Tab</button>
+          <button class="mobile-modal-close" onclick="closeTab()" style="background: #dc3545;">Close</button>
         </div>
       </div>
   </div>
@@ -739,26 +739,65 @@
     
     function closeTab() {
       console.log('Closing tab...');
-      // Try multiple methods to close the tab
+      
+      // Method 1: Try window.close() first
       try {
         window.close();
+        return;
       } catch (e) {
-        console.log('window.close() failed, trying alternative methods');
+        console.log('window.close() failed:', e);
       }
       
-      // Alternative method
+      // Method 2: Try to close via history
       try {
-        window.open('', '_self', '');
+        window.history.back();
+        setTimeout(() => {
+          window.close();
+        }, 100);
+        return;
+      } catch (e) {
+        console.log('History back method failed:', e);
+      }
+      
+      // Method 3: Try to open new window and close current
+      try {
+        window.open('', '_self');
+        window.close();
+        return;
+      } catch (e) {
+        console.log('Open/close method failed:', e);
+      }
+      
+      // Method 4: Try to navigate to parent and close
+      try {
+        if (window.opener) {
+          window.opener = null;
+        }
+        window.close();
+        return;
+      } catch (e) {
+        console.log('Opener method failed:', e);
+      }
+      
+      // Method 5: Force close by redirecting to blank and trying close
+      try {
+        window.location.replace('about:blank');
+        setTimeout(() => {
+          window.close();
+        }, 100);
+        return;
+      } catch (e) {
+        console.log('Replace and close method failed:', e);
+      }
+      
+      // Method 6: Last resort - show alert and try to close
+      try {
+        alert('Please close this tab manually');
         window.close();
       } catch (e) {
-        console.log('Alternative close method failed');
-      }
-      
-      // Last resort - redirect to about:blank
-      try {
+        console.log('All close methods failed:', e);
+        // Final attempt - just redirect to blank
         window.location.href = 'about:blank';
-      } catch (e) {
-        console.log('about:blank redirect failed');
       }
     }
     
