@@ -351,8 +351,8 @@
       background: transparent;
     }
     
-    /* Hide scrollbars when developer tools might be open */
-    @media screen and (max-height: 500px) {
+    /* Hide content only for very small heights (likely dev tools) */
+    @media screen and (max-height: 300px) {
       body { 
         display: none !important; 
       }
@@ -556,39 +556,18 @@
           }, 1000);
         },
         
-        // Detect developer tools
+        // Detect developer tools (disabled for now)
         detectDevTools: function() {
-          let devtools = {open: false, orientation: null};
-          const threshold = 160;
-          
-          setInterval(function() {
-            if (window.outerHeight - window.innerHeight > threshold || 
-                window.outerWidth - window.innerWidth > threshold) {
-              if (!devtools.open) {
-                devtools.open = true;
-                // Redirect or block when dev tools detected
-                window.location.href = 'about:blank';
-              }
-            } else {
-              devtools.open = false;
-            }
-          }, 500);
+          // Temporarily disabled to prevent blank page issues
+          // This can be re-enabled later if needed
+          console.log('Dev tools detection disabled for user experience');
         },
         
-        // Anti-debug measures
+        // Anti-debug measures (disabled for now)
         antiDebug: function() {
-          // Debug detection
-          let start = +new Date();
-          debugger;
-          let end = +new Date();
-          if (end - start > 100) {
-            window.location.href = 'about:blank';
-          }
-          
-          // Infinite debugger loop
-          setInterval(function() {
-            debugger;
-          }, 100);
+          // Temporarily disabled to prevent blank page issues
+          // This can be re-enabled later if needed
+          console.log('Anti-debug measures disabled for user experience');
         },
         
         // Disable text selection methods
@@ -612,17 +591,11 @@
           }
         },
         
-        // Monitor for common inspection methods
+        // Monitor for common inspection methods (disabled for now)
         monitorInspection: function() {
-          // Check for firebug
-          if (window.console && (window.console.firebug || window.console.exception && window.console.table)) {
-            window.location.href = 'about:blank';
-          }
-          
-          // Check for chrome dev tools
-          if (typeof window.chrome !== 'undefined' && window.chrome.runtime && window.chrome.runtime.onConnect) {
-            window.location.href = 'about:blank';
-          }
+          // Temporarily disabled to prevent blank page issues
+          // This can be re-enabled later if needed
+          console.log('Inspection monitoring disabled for user experience');
         },
         
         // Disable drag and drop
@@ -663,10 +636,12 @@
           this.disableDragDrop();
           this.hideSource();
           
-          // Anti-debug with delay
-          setTimeout(() => {
-            this.antiDebug();
-          }, 2000);
+          // Anti-debug disabled for user experience
+          // setTimeout(() => {
+          //   if (window.innerWidth > 1000 && window.innerHeight > 600) {
+          //     this.antiDebug();
+          //   }
+          // }, 5000);
         }
       };
       
@@ -685,27 +660,13 @@
         console.log('%cThis is a browser feature intended for developers. Source code inspection is not permitted.', 'color: red; font-size: 16px;');
       }, 1000);
       
-      // Advanced tamper detection
-      const originalHTML = document.documentElement.outerHTML;
-      setInterval(function() {
-        if (document.documentElement.outerHTML !== originalHTML) {
-          window.location.href = 'about:blank';
-        }
-      }, 2000);
+      // Advanced tamper detection (disabled for now)
+      // Temporarily disabled to prevent blank page issues
+      console.log('Tamper detection disabled for user experience');
       
-      // Disable common inspection methods
-      Object.defineProperty(window, 'console', {
-        get: function() {
-          window.location.href = 'about:blank';
-        }
-      });
-      
-      // Block common dev tool detection bypasses
-      window.addEventListener('resize', function() {
-        if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
-          window.location.href = 'about:blank';
-        }
-      });
+      // Disable common inspection methods (disabled for now)
+      // Temporarily disabled to prevent blank page issues
+      console.log('Console hijacking disabled for user experience');
       
     })();
     
